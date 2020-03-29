@@ -86,82 +86,61 @@ def process_file(file):
             fMtrPosn = np.append(fMtrPosn, float_data_array[6])
 
 
-def save_data_mean_graph(array, title, x_axis, y_axis, sample_size, file_name):
-    """Plots a single array and saves the file....working use this two plot the averaged array. use 60 as sample
-    sized to average every minute """
-    print("Strarting to graph: ")
-    remainder = np.mod(len(array), sample_size)
-    print("now truncating")
-    data1 = array[:-remainder]
-    averaged_array = np.mean(data1.reshape(-1, sample_size), axis=1)
-    plt.title(title)
-    plt.xlabel(x_axis)
-    plt.ylabel(y_axis)
-    plt.plot(averaged_array)
-    plt.savefig(file_name + ".png")
-    plt.clf()
-    print('finished plotting')
+# def save_data_mean_graph(array, title, x_axis, y_axis, sample_size, file_name):
+#     """Plots a single array and saves the file....working use this two plot the averaged array. use 60 as sample
+#     sized to average every minute """
+#     print("Strarting to graph: ")
+#     remainder = np.mod(len(array), sample_size)
+#     print("now truncating")
+#     data1 = array[:-remainder]
+#     averaged_array = np.mean(data1.reshape(-1, sample_size), axis=1)
+#     plt.title(title)
+#     plt.xlabel(x_axis)
+#     plt.ylabel(y_axis)
+#     plt.plot(averaged_array)
+#     plt.savefig(file_name + ".png")
+#     plt.clf()
+#     print('finished plotting')
+
+# def graph_data_mean(array, title, x_axis, y_axis, sample_size):
+#     """Returns a plot. Set Sample Size to 60 for average of every hour"""
+#     print("Strarting to graph: ")
+#     remainder = np.mod(len(array), sample_size)
+#     print("now truncating")
+#     data1 = array[:-remainder]
+#     trunc_time = time[:-remainder]
+#     averaged_array = np.mean(data1.reshape(-1, sample_size), axis=1)
+#     plt.title(title)
+#     plt.xlabel(x_axis)
+#     plt.ylabel(title)
+#     return plt.plot(averaged_array)
 
 
-def histogram(array1, handler):
-    "histograms"
-    plt.hist(array1)
-    if handler == "return":
-        return plt.plot()
-    else:
-        plt.show()
-
-
-def histogram_2D():
-    "2d histograms"
-    figHist = plt.figure();
-    axHist = figHist.add_subplot(1, 1, 1);
-    axHist.hist2d(time, fPumpDiodeCurrent, bins=100, cmax=10000);  # , [10len(listTime), 10]);
-    axHist.set_xlabel("Time [hr]");
-    axHist.set_ylabel("Diagnostic PD [V]");
-    plt.show();
-
-
-def graph_data_mean(array, title, x_axis, y_axis, sample_size):
-    """Returns a plot. Set Sample Size to 60 for average of every hour"""
-    print("Strarting to graph: ")
-    remainder = np.mod(len(array), sample_size)
-    print("now truncating")
-    data1 = array[:-remainder]
-    trunc_time = time[:-remainder]
-    averaged_array = np.mean(data1.reshape(-1, sample_size), axis=1)
-    # plt.title(title)
-    # plt.xlabel(x_axis)
-    plt.ylabel(title)
-    return plt.plot(averaged_array)
-
-
-def multi_graph_data_mean(array1, array2, array3, array4):
-    """Subplots"""
-
-    # remainder = np.mod(len(array1), sample_size) i dont think we need this. This is handled by graph_data_mean
-    plt.figure()
-    plt.subplot(4, 1, 1)
-    graph_data_mean(array1, "Cavity X (V)", "hours", "Voltage", 60)
-
-    plt.subplot(4, 1, 2)
-    # plt.title("fVoltageCavityY")
-    graph_data_mean(array2, "Cavity Y (V)", "hours", "Voltage", 60)
-
-    plt.subplot(4, 1, 3)
-    # plt.title("fVoltageCavityY")
-    graph_data_mean(array3, "Pump X (V)", "hours", "Voltage", 60)
-    plt.subplot(4, 1, 4)
-    # plt.title("fVoltageCavityY")
-    graph_data_mean(array4, "Pump Y (V)", "hours", "Voltage", 60)
-    plt.savefig("mean" + ".png")
-    plt.clf()
-    print('finished plotting')
+# def multi_graph_data_mean(array1, array2, array3, array4):
+#     """Subplots"""
+#     # remainder = np.mod(len(array1), sample_size) i dont think we need this. This is handled by graph_data_mean
+#     plt.figure()
+#     plt.subplot(4, 1, 1)
+#     graph_data_mean(array1, "Cavity X (V)", "hours", "Voltage", 60)
+#
+#     plt.subplot(4, 1, 2)
+#     # plt.title("fVoltageCavityY")
+#     graph_data_mean(array2, "Cavity Y (V)", "hours", "Voltage", 60)
+#
+#     plt.subplot(4, 1, 3)
+#     # plt.title("fVoltageCavityY")
+#     graph_data_mean(array3, "Pump X (V)", "hours", "Voltage", 60)
+#     plt.subplot(4, 1, 4)
+#     # plt.title("fVoltageCavityY")
+#     graph_data_mean(array4, "Pump Y (V)", "hours", "Voltage", 60)
+#     plt.savefig("mean" + ".png")
+#     plt.clf()
+#     print('finished plotting')
 
 
 # multi_graph_data_test(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY)
 def multi_graph_mean(array1, array2, array3, array4, down_sample_size):
-    fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, sharex=True, figsize=(15.0, 15.0))
+    fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, sharex=True, figsize=(10.0, 10.0))
     ax1.plot(time[0::down_sample_size], array1[0::down_sample_size])
     ax1.set_ylabel("Volts")
     ax1.set_title("Pump X")
@@ -176,16 +155,16 @@ def multi_graph_mean(array1, array2, array3, array4, down_sample_size):
     ax4.set_title("Cavity Y")
     ax4.set_xlabel("Hours")
     plt.tight_layout()
-    plt.savefig("graphs2/Voltage_mean_subplots.png")
-    plt.show()
+    plt.savefig("graphs/Voltage_mean_subplots.png")
+    # plt.show()
 
 
 def multi_graph_histogram(array1, array2, array3, array4):
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(10.0, 10.0))
     ax1.hist(array1)
     ax1.set_ylabel("Volts")
     ax1.set_title("Pump X")
-    ax2.hist(array2)
+    ax2.hist(array2, bins = 8)
     ax2.set_ylabel("Volts")
     ax2.set_title("Pump Y")
     ax3.hist(array3)
@@ -195,42 +174,27 @@ def multi_graph_histogram(array1, array2, array3, array4):
     ax4.set_ylabel("Volts")
     ax4.set_title("Cavity Y")
     plt.tight_layout()
-    plt.savefig("graphs2/Voltage_histo_subplots.png")
-    plt.show()
+    plt.savefig("graphs/Voltage_histo_subplots.png")
+    # plt.show()
 
 
 def multi_graph_histo2d(array1, array2, array3, array4):
-    fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, sharex=True)
+    fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, sharex=True, figsize=(10.0, 10.0))
     ax1.hist2d(time, array1)
+    ax1.set_title("Pump X")
+    ax1.set_ylabel("Volts")
     ax2.hist2d(time, array2)
+    ax2.set_ylabel("Volts")
+    ax2.set_title("Pump Y")
     ax3.hist2d(time, array3)
+    ax3.set_ylabel("Volts")
+    ax3.set_title("Cavity X")
     ax4.hist2d(time, array4)
-    plt.savefig("graphs2/Voltage_histo2d_subplots.png", dpi=96)
-    plt.show()
-
-
-def multi_graph_data_histogram(array1, array2, array3, array4):
-    """Subplots"""
-
-    # remainder = np.mod(len(array1), sample_size) i dont think we need this. This is handled by graph_data_mean
-    plt.figure()
-    plt.subplot(4, 1, 1)
-    histogram(array1, "return")
-
-    plt.subplot(4, 1, 2)
-    # plt.title("fVoltageCavityY")
-    histogram(array2, "return")
-
-    plt.subplot(4, 1, 3)
-    # plt.title("fVoltageCavityY")
-    histogram(array3, "return")
-
-    plt.subplot(4, 1, 4)
-    # plt.title("fVoltageCavityY")
-    histogram(array4, "return")
-    plt.savefig("histo" + ".png")
-    plt.clf()
-    print('finished plotting')
+    ax4.set_ylabel("Volts")
+    ax4.set_title("Cavity Y")
+    ax4.set_xlabel("Hours")
+    plt.savefig("graphs/Voltage_histo2d_subplots.png", dpi=96)
+    # plt.show()
 
 
 def averaged_array(array, sample_size):
@@ -262,9 +226,9 @@ def get_lines(file):
 
 # get_lines("2019-04-10T14-09-08.log")
 # get_lines("2019-05-01T18-31-59.log")
-process_file("test_test")
+process_file("Combined_Data_File")
 # histogram(fVoltagePumpX,"else")
-multi_graph_mean(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY,2)
+multi_graph_mean(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY,1000)
 multi_graph_histogram(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY)
 multi_graph_histo2d(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY)
 
