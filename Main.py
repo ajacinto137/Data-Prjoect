@@ -139,18 +139,18 @@ def process_file(file):
 
 
 # multi_graph_data_test(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY)
-def multi_graph_mean(array1, array2, array3, array4, down_sample_size):
+def multi_graph_mean(array1, array2, array3, array4):
     fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, sharex=True, figsize=(10.0, 10.0))
-    ax1.plot(time[0::down_sample_size], array1[0::down_sample_size])
+    ax1.plot(averaged_array(time,60), averaged_array(array1,60))
     ax1.set_ylabel("Volts")
     ax1.set_title("Pump X")
-    ax2.plot(time[0::down_sample_size], array2[0::down_sample_size])
+    ax2.plot(averaged_array(time,60), averaged_array(array2,60))
     ax2.set_ylabel("Volts")
     ax2.set_title("Pump Y")
-    ax3.plot(time[0::down_sample_size], array3[0::down_sample_size])
+    ax3.plot(averaged_array(time,60), averaged_array(array3,60))
     ax3.set_ylabel("Volts")
     ax3.set_title("Cavity X")
-    ax4.plot(time[0::down_sample_size], array4[0::down_sample_size])
+    ax4.plot(averaged_array(time,60), averaged_array(array4,60))
     ax4.set_ylabel("Volts")
     ax4.set_title("Cavity Y")
     ax4.set_xlabel("Hours")
@@ -199,8 +199,7 @@ def multi_graph_histo2d(array1, array2, array3, array4):
 
 def averaged_array(array, sample_size):
     print("Strarting to graph: ")
-    arrayLength = len(array)
-    remainder = np.mod(arrayLength, sample_size)
+    remainder = np.mod(len(array), sample_size)
     print("now truncating")
     data1 = array[:-remainder]
     averaged_data = np.mean(data1.reshape(-1, sample_size), axis=1)
@@ -208,7 +207,7 @@ def averaged_array(array, sample_size):
 
 
 def file_len(f_name):
-    """gets the length of file """
+    """ gets the length of file """
     with open(f_name) as f:
         for i, l in enumerate(f):
             pass
@@ -224,11 +223,10 @@ def get_lines(file):
                     write_file.write(line)
 
 
-# get_lines("2019-04-10T14-09-08.log")
-# get_lines("2019-05-01T18-31-59.log")
+get_lines("2019-04-10T14-09-08.log")
+get_lines("2019-05-01T18-31-59.log")
 process_file("Combined_Data_File")
-# histogram(fVoltagePumpX,"else")
-multi_graph_mean(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY,1000)
+multi_graph_mean(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY)
 multi_graph_histogram(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY)
 multi_graph_histo2d(fVoltagePumpX, fVoltagePumpY, fVoltageCavityX, fVoltageCavityY)
 
